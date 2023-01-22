@@ -13,4 +13,12 @@ class ContactDaoRepository {
         daoService.addAll(contact)
     }
 
+    suspend fun getContactById(id: Int): DbContact {
+        return daoService.getContactById(id)
+    }
+
+    suspend fun deleteContact(id: Int) {
+        daoService.deleteById(id)
+    }
+
 }
