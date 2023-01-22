@@ -21,4 +21,8 @@ class ContactDaoRepository {
         daoService.deleteById(id)
     }
 
+    suspend fun deleteAllContact() {
+        daoService.deleteAll()
+    }
+
 }

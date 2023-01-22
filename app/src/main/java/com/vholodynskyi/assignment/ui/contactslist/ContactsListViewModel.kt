@@ -1,7 +1,9 @@
 package com.vholodynskyi.assignment.ui.contactslist
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.vholodynskyi.assignment.App
 import com.vholodynskyi.assignment.db.contacts.DbContact
 import com.vholodynskyi.assignment.di.GlobalFactory.daoRepository
@@ -32,8 +34,9 @@ class ContactsListViewModel : ViewModel() {
 
     }
 
-    private fun getContactsFromAPI() = CoroutineScope(Dispatchers.IO).launch {
+     private fun getContactsFromAPI() = CoroutineScope(Dispatchers.IO).launch {
         try {
+            Log.d("TAG", "getContactsFromAPI: ")
             val result = repository.getContacts()
             val dbContactList = mutableListOf<DbContact>()
             for (item in result.results!!) {
@@ -65,6 +68,7 @@ class ContactsListViewModel : ViewModel() {
     private fun saveContactsDb(contactList: List<DbContact>) =
         CoroutineScope(Dispatchers.IO).launch {
             try {
+                Log.d("TAG", "saveContactsDb: ")
                 daoRepository.addAll(contactList)
                 customPreferences.saveTime(System.nanoTime())
                 refreshData()
@@ -73,4 +77,24 @@ class ContactsListViewModel : ViewModel() {
             }
 
         }
+
+     fun clearDBAndGetContactsFromAPI() =
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                daoRepository.deleteAllContact()
+                getContactsFromAPI()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        }
+
+    fun deleteContact(contactId:Int) = viewModelScope.launch {
+        try {
+           daoRepository.deleteContact(contactId)
+        }catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
 }

@@ -12,7 +12,7 @@ class ContactAdapter (
     private val onItemClicked: ItemClick
 ) : RecyclerView.Adapter<ViewHolder>() {
 
-    var items: List<DbContact> = listOf(DbContact())
+    var items = mutableListOf(DbContact())
         set(value) {
             field = value
             notifyDataSetChanged()
