@@ -4,6 +4,7 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import com.vholodynskyi.assignment.databinding.ItemContactListBinding
 import com.vholodynskyi.assignment.db.contacts.DbContact
 
@@ -27,6 +28,7 @@ class ContactAdapter (
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         with(holder.binding) {
+            Picasso.get().load(item.photo).into(userImage)
             firstName.text = items[position].firstName
             lastName.text = items[position].lastName
             email.text = items[position].email

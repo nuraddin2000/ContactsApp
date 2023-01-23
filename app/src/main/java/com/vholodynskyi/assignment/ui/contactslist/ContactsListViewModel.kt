@@ -36,7 +36,6 @@ class ContactsListViewModel : ViewModel() {
 
      private fun getContactsFromAPI() = CoroutineScope(Dispatchers.IO).launch {
         try {
-            Log.d("TAG", "getContactsFromAPI: ")
             val result = repository.getContacts()
             val dbContactList = mutableListOf<DbContact>()
             for (item in result.results!!) {
@@ -44,7 +43,8 @@ class ContactsListViewModel : ViewModel() {
                     DbContact(
                         firstName = item.name?.firstName,
                         lastName = item.name?.lastName,
-                        email = item.email
+                        email = item.email,
+                        photo = item.picture?.medium
                     )
                 dbContactList.add(dbContact)
             }
