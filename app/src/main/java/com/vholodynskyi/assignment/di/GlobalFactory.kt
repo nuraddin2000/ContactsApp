@@ -8,8 +8,8 @@ import com.vholodynskyi.assignment.api.RetrofitServicesProvider
 import com.vholodynskyi.assignment.api.contacts.ContactsService
 import com.vholodynskyi.assignment.db.AppDatabase
 import com.vholodynskyi.assignment.db.contacts.ContactsDao
-import com.vholodynskyi.assignment.repository.ContactDaoRepository
-import com.vholodynskyi.assignment.repository.ContactRepository
+import com.vholodynskyi.assignment.repository.ContactDaoRepositoryImpl
+import com.vholodynskyi.assignment.repository.ContactRepositoryImpl
 import com.vholodynskyi.assignment.ui.contactslist.ContactsListViewModel
 import com.vholodynskyi.assignment.ui.details.DetailsViewModel
 
@@ -23,12 +23,12 @@ object GlobalFactory: ViewModelProvider.Factory {
         db.userDao()
     }
 
-    val daoRepository: ContactDaoRepository by lazy {
-        ContactDaoRepository()
+    val daoRepository: ContactDaoRepositoryImpl by lazy {
+        ContactDaoRepositoryImpl()
     }
 
-    val repository: ContactRepository by lazy {
-        ContactRepository()
+    val repository: ContactRepositoryImpl by lazy {
+        ContactRepositoryImpl()
     }
 
     lateinit var db: AppDatabase
