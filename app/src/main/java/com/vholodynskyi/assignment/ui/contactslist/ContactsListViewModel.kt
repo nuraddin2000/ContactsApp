@@ -6,14 +6,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vholodynskyi.assignment.App
 import com.vholodynskyi.assignment.db.contacts.DbContact
-import com.vholodynskyi.assignment.di.GlobalFactory.daoRepository
-import com.vholodynskyi.assignment.di.GlobalFactory.repository
+import com.vholodynskyi.assignment.repository.ContactDaoRepository
+import com.vholodynskyi.assignment.repository.ContactRepository
 import com.vholodynskyi.assignment.utils.CustomSharedPreferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ContactsListViewModel : ViewModel() {
+class ContactsListViewModel(
+    private val daoRepository: ContactDaoRepository,
+    private val repository: ContactRepository
+) : ViewModel() {
 
     private var contactResult = MutableLiveData<List<DbContact>>()
     private var customPreferences = CustomSharedPreferences(App.application)
@@ -34,7 +37,7 @@ class ContactsListViewModel : ViewModel() {
 
     }
 
-     private fun getContactsFromAPI() = CoroutineScope(Dispatchers.IO).launch {
+    private fun getContactsFromAPI() = CoroutineScope(Dispatchers.IO).launch {
         try {
             val result = repository.getContacts()
             val dbContactList = mutableListOf<DbContact>()
@@ -78,7 +81,7 @@ class ContactsListViewModel : ViewModel() {
 
         }
 
-     fun clearDBAndGetContactsFromAPI() =
+    fun clearDBAndGetContactsFromAPI() =
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 daoRepository.deleteAllContact()
@@ -89,10 +92,10 @@ class ContactsListViewModel : ViewModel() {
 
         }
 
-    fun deleteContact(contactId:Int) = viewModelScope.launch {
+    fun deleteContact(contactId: Int) = viewModelScope.launch {
         try {
-           daoRepository.deleteContact(contactId)
-        }catch (e: Exception) {
+            daoRepository.deleteContact(contactId)
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 

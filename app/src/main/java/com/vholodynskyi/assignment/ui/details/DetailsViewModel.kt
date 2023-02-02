@@ -4,10 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vholodynskyi.assignment.db.contacts.DbContact
-import com.vholodynskyi.assignment.di.GlobalFactory.daoRepository
+import com.vholodynskyi.assignment.repository.ContactDaoRepository
 import kotlinx.coroutines.launch
 
-class DetailsViewModel: ViewModel() {
+class DetailsViewModel(private val daoRepository: ContactDaoRepository): ViewModel() {
 
     private var contactResult = MutableLiveData<DbContact>()
 

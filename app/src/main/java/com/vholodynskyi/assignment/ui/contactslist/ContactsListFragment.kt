@@ -6,15 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vholodynskyi.assignment.databinding.FragmentContactsListBinding
 import com.vholodynskyi.assignment.db.contacts.DbContact
-import com.vholodynskyi.assignment.di.GlobalFactory
-import com.vholodynskyi.assignment.ui.details.DetailsViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 open class ContactsListFragment : Fragment() {
@@ -26,7 +24,7 @@ open class ContactsListFragment : Fragment() {
         )
     }
 
-    private val viewModel: ContactsListViewModel by viewModels { GlobalFactory }
+    private val viewModel by viewModel<ContactsListViewModel>()
 
     private fun onContactClicked(dbContact: DbContact) {
         findNavController()
